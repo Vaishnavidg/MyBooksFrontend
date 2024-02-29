@@ -1,4 +1,4 @@
-import { Button, Modal, TextField } from "@mui/material";
+import { Button, Modal, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { bookApi } from "../api/BookApi";
 
@@ -32,9 +32,9 @@ export const AddBookModal: React.FC<AddBookModalProps> = ({ open, handleClose,fe
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("formData:", formData);
+    // console.log("formData:", formData);
     const response = await bookApi.AddBookDetails(formData);
-    console.log(response);
+    // console.log(response);
     setFormData({
       title: '',
       author: '',
@@ -47,6 +47,7 @@ export const AddBookModal: React.FC<AddBookModalProps> = ({ open, handleClose,fe
   return (
     <Modal open={open} onClose={handleClose}>
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: 20, borderRadius: 8 }}>
+      <Typography>Add Form</Typography>
         <TextField label="Title" name="title" value={formData.title} onChange={handleChange} fullWidth margin="normal" />
         <TextField label="Author" name="author" value={formData.author} onChange={handleChange} fullWidth margin="normal" />
         <TextField label="Published Year" type="number" name="publishYear" value={formData.publishYear === 0 ? '' : formData.publishYear.toString()} onChange={handleChange} fullWidth margin="normal" />

@@ -14,7 +14,7 @@ import HomePage from './components/HomePage';
 function App() {
   return (
     <div className='App'>
-      {/* <Navbar/> */}
+      <Navbar/>
       <HomePage/>
       {/* <Routes>
         <Route path='/' element={<Home />} />

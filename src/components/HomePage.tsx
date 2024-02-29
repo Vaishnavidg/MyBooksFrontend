@@ -1,6 +1,6 @@
 import React, { Key, forwardRef, useEffect, useState } from 'react';
 import Navbar from './Navbar';
-import { Box, Paper, Typography, SpeedDial, SpeedDialIcon, Button, Snackbar, AlertProps, Alert } from '@mui/material';
+import { Box, Paper, Typography, SpeedDial, SpeedDialIcon, Button, Snackbar, AlertProps, Alert, IconButton } from '@mui/material';
 import { IBook, bookApi } from '../api/BookApi';
 import { Masonry } from '@mui/lab';
 import { Delete, Edit, InfoRounded } from '@mui/icons-material';
@@ -10,6 +10,7 @@ import { AddBookModal } from './AddBookModal';
 
 // import { UpdateBookModal } from './';
 import InfoBookModal from './InfoBookModal';
+import { UpdateBookModal } from './UpdateBookModal';
 
 const SnackbarAlert = forwardRef<HTMLDivElement, AlertProps>(
     function SnackbarAlert(props, ref) {
@@ -21,11 +22,16 @@ export default function HomePage() {
     const [books, setBooks] = useState<IBook[]>([]);
     const [bookInfo, setBookInfo] = useState<IBook | null>(null);
     const [openModal, setOpenModal] = useState(false);
-    const [openInfoModal, setOpenInfoModal] = useState(false);
-    const [openUpdateModal, setUpdateModal] = useState(false);
+    // const [openInfoModal, setOpenInfoModal] = useState(false);
+    // const [openUpdateModal, setUpdateModal] = useState(false);
+    const [openAddModal, setOpenAddModal] = useState(false); // State for AddBookModal
+    const [openInfoModal, setOpenInfoModal] = useState(false); // State for InfoBookModal
+    const [openUpdateModal, setOpenUpdateModal] = useState(false); // State for UpdateBookModal
+    const [bookId, setBookId] = useState<string | null | undefined>(null); // State to store the book id for UpdateBookModal
+
 
     //Get All Books -> call getAllBookDetails API
-   async function fetchBooks() {
+    async function fetchBooks() {
         try {
             const response = await bookApi.getAllBookDetails();
             const booksData: IBook[] = response;
@@ -42,7 +48,7 @@ export default function HomePage() {
     async function deleteBook(id: string | null | undefined) {
         try {
             const response = await bookApi.DeletBook(id);
-            console.log(response);
+            // console.log(response);
             // const booksData: IBook[] = response;
             // setBooks(booksData);
         } catch (error) {
@@ -81,36 +87,22 @@ export default function HomePage() {
     //     handleInfoModal();
     // }
 
-    //For Info Modal
-    const handleInfoModal = () => {
+    // Handlers for opening and closing modals
+    const handleInfoModal = (id: string | null | undefined) =>{
+        setBookId(id);
         setOpenInfoModal(true);
-    };
-
-    const handleCloseInfoModal = () => {
-        setOpenInfoModal(false);
-    };
-
-    //For Add Modal
-    const handleAddModal = () => {
-        setOpenModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
-
-    //For Update Modal
-    const handleUpdateModal = () => {
-        setUpdateModal(true);
     }
-    const handleUpdateCloseModal = () => {
-        setUpdateModal(false);
+    const handleCloseInfoModal = () => setOpenInfoModal(false);
+    const handleAddModal = () => setOpenAddModal(true);
+    const handleCloseAddModal = () => setOpenAddModal(false);
+    const handleUpdateModal = (id: string | null | undefined) => {
+        setBookId(id);
+        setOpenUpdateModal(true);
     };
-
+    const handleCloseUpdateModal = () => setOpenUpdateModal(false);
     return (
-        <div>
-            <Navbar />
-            <Box sx={{ margin: 5 }}>
+        <div>  
+            <Box sx={{ margin: 5,marginTop:10 }}>
                 {books.length > 0 && (
                     <Masonry columns={5} spacing={2}>
                         {books.map((book, index) => (
@@ -128,28 +120,24 @@ export default function HomePage() {
                                 <Box sx={{ position: 'absolute', bottom: 16, right: 16 }}>
 
                                     {/* <Button onClick={()=>fetchInfo(book._id)}> */}
-                                    <Button onClick={handleInfoModal}>
+                                    <IconButton onClick={() => handleInfoModal(book._id)}>
                                         <InfoRounded color='info' />
-                                        <InfoBookModal open={openInfoModal} handleClose={handleCloseInfoModal} id={book._id} />
-                                        {/* <InfoBookModal open={openInfoModal} handleClose={handleCloseInfoModal}  book= {bookInfo} />  */}
-                                    </Button>
-
-                                    <Button onClick={handleUpdateModal}>
-                                        <Edit/>
-                                        {/* <UpdateBookModal open={openModal} handleClose={handleCloseModal} /> */}
-                                    </Button>
-
-                                    <Button onClick={() => deleteBook(book._id)}>
+                                    </IconButton>
+                                    {/* Add button to open UpdateBookModal */}
+                                    <IconButton onClick={() => handleUpdateModal(book._id)}>
+                                        <Edit />
+                                    </IconButton>
+                                    {/* Add button to delete book */}
+                                    <IconButton onClick={() => deleteBook(book._id)}>
                                         <Delete color='error' />
-                                    </Button>
-
+                                    </IconButton>
                                 </Box>
 
                             </Paper>
                         ))}
                         <SpeedDial
                             ariaLabel="SpeedDial example"
-                            sx={{ position: 'absolute', bottom: 16, right: 16 }}
+                            sx={{ position: 'fixed', bottom: 16, right: 16 }}
                             icon={<SpeedDialIcon />}
                             onClose={() => { }}
                             onOpen={() => { }}
@@ -166,12 +154,13 @@ export default function HomePage() {
                                 variant="filled"
                                 sx={{ width: '100%' }}
                             >
-                                 Deleted successfully!
+                                Deleted successfully!
                             </Alert>
                         </Snackbar>
-                        <AddBookModal open={openModal} handleClose={handleCloseModal} fetchBooks={fetchBooks} />
-
-                        {/* </Paper> */}
+                        {/* Modals */}
+                        <InfoBookModal open={openInfoModal} handleClose={handleCloseInfoModal} id={bookId} />
+                        <AddBookModal open={openAddModal} handleClose={handleCloseAddModal} fetchBooks={fetchBooks} />
+                        <UpdateBookModal open={openUpdateModal} handleClose={handleCloseUpdateModal} fetchBooks={fetchBooks} id={bookId} />
 
                     </Masonry>
                 )}

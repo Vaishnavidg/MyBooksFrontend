@@ -50,6 +50,17 @@ class BookApi {
             throw error; 
         }
     }
+    async UpdateBookDetail(FormData: FormData,id:string | null | undefined) {
+        try {
+            // Perform the GET request for get Books Details
+            const response = await axios.put(`${apiUrl}books/${id}`,FormData);
+            console.log(response);
+            return response.data;
+        } catch (error: any) {
+            console.log(error.message);
+            throw error; 
+        }
+    }
     async  getBookDetails(id: string): Promise<IBook[]> {
         try {
           const response = await axios.get<IBook[]>(`${apiUrl}books/${id}`);

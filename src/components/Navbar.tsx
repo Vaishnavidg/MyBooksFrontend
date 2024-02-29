@@ -8,7 +8,7 @@ export default function Navbar(): JSX.Element {
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" sx={{ backgroundColor: 'black' }}>
+                <AppBar position="fixed" sx={{ backgroundColor: 'black' }}>
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -22,11 +22,11 @@ export default function Navbar(): JSX.Element {
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             BOOK STORE
                         </Typography>
-                        <Link to='/books/create'>
+                        {/* <Link to='/books/create'>
                             <Button color="info">
                                 <AddBox />
                             </Button>
-                        </Link>
+                        </Link> */}
                     </Toolbar>
                 </AppBar>
             </Box>
