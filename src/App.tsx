@@ -1,20 +1,22 @@
 import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import BookForm from './components/BookForm';
-import ShowBook from './components/ShowBook';
-import EditBook from './components/EditBook';
-import DeleteBook from './components/DeleteBook';
+// import { Route, Routes } from 'react-router-dom';
+// import Home from './components/Home';
+// import BookForm from './components/BookForm';
+// import ShowBook from './components/ShowBook';
+// import EditBook from './components/EditBook';
+// import DeleteBook from './components/DeleteBook';
 import Navbar from './components/Navbar';
-import HomePage from './components/HomePage';
+import HomePage from './components/Pages/HomePage';
+// import HomePage from './components/HomePage';
 // import Navbar from './components/Navbar';
 
 function App() {
   return (
     <div className='App'>
       <Navbar/>
+      {/* <HomePage/> */}
       <HomePage/>
       {/* <Routes>
         <Route path='/' element={<Home />} />

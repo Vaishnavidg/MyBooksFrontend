@@ -61,9 +61,9 @@ class BookApi {
             throw error; 
         }
     }
-    async  getBookDetails(id: string): Promise<IBook[]> {
+    async  getBookDetails(id: string): Promise<IBook> {
         try {
-          const response = await axios.get<IBook[]>(`${apiUrl}books/${id}`);
+          const response = await axios.get<IBook>(`${apiUrl}books/${id}`);
           return response.data;
         } catch (error: any) {
           console.log(error.message);
