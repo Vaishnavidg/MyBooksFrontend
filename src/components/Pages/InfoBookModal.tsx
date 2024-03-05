@@ -66,7 +66,7 @@ const InfoBookModal: React.FC<InfoBookModalProps> = ({ open, handleClose, id, fe
                     {bookInfo && (
                         <>
                             <Grid container justifyContent="space-between" alignItems="center">
-                                <Typography variant="h4"sx={{ marginBottom: 1 }}>{bookInfo.title}</Typography>
+                                <Typography variant="h5"sx={{ marginBottom: 1 }}>{bookInfo.title}</Typography>
                                 <Button onClick={handleClose} color='inherit' endIcon={<Close />} />
                             </Grid>
                             <Typography variant="body1">
